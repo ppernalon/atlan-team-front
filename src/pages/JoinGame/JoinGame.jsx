@@ -1,10 +1,17 @@
 import React, { useRef } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import RoomIdActions from '../../flux/actions/RoomIdActions';
 import '../CreateGame/CreateGame.css'
 import './../../components/StyledButton.css'
 import './../../components/StyledInput.css'
 
 const JoinGame = () => {
+    const location = useLocation()
+    let roomId = location.pathname.replace('JoinGame', '')
+    roomId = roomId.replace('/', '')
+    roomId = roomId.replace('/', '')
+    RoomIdActions.changeRoomId(roomId)
+
     const pseudoInput = useRef(null)
     const navigate = useNavigate()
 

@@ -6,21 +6,19 @@ import './../../components/StyledButton.css'
 import LoadingCircle from '../../components/LoadingCircle/LoadingCircle'
 import GameLobbyHttpServices from '../../services/http/GameLobbyHttpService'
 import GameLobbyWSServices from '../../services/webSockets/GameLobbyWSService'
-import { useLocation } from "react-router-dom"
+import userNameStore from '../../flux/stores/UserNameStore'
+import RoomIdActions from '../../flux/actions/RoomIdActions'
+import RoomIdStore from '../../flux/stores/RoomIdStore'
+import roomIdStore from '../../flux/stores/RoomIdStore'
 
 const NB_MAX_PLAYERS = 10
 
 const GameLobby = () => {
-    const location = useLocation()
-    let gameId = location.pathname.replace('GameLobby', '')
-    gameId = gameId.replace('/', '')
-    gameId = gameId.replace('/', '')
-
     let [isLoading, setIsLoading] = useState(true)
     let [players, setPlayers] = useState([])
     let [playersSlots, setPlayersSlots] = useState([])
     let [waitingSlots, setWaitingSlots] = useState([])
-    let [roomId, setRoomId] = useState(gameId)
+    let [roomId, setRoomId] = useState(RoomIdStore.getState())
     let [joinUrl, setJoinUrl] = useState("")
 
     useEffect(() => {
@@ -57,27 +55,60 @@ const GameLobby = () => {
     }, [players])
 
     useEffect(() => {
+        const handleRoomIdChange = () => {
+            const newRoomId = roomIdStore.getState()
+            setJoinUrl(window.location.toString().replace('GameLobby', 'JoinGame') + '/' + newRoomId)
+            setRoomId(roomIdStore.getState())
+        }
+        roomIdStore.addChangeListener(handleRoomIdChange)
+
+        return () => {
+            roomIdStore.removeChangeListener(handleRoomIdChange)
+        }
+    }, [])
+
+    /*
+        Handle the connexion to WebSocket
+    */
+    useEffect(() => {
+        setJoinUrl(window.location.toString().replace('GameLobby', 'JoinGame') + '/' + roomId)
         if (isLoading) {
+            console.log(roomId)
+            console.log(roomId.length === 0)
             if (roomId.length === 0) {
                 GameLobbyHttpServices.generateRoomId(
                     (res) => {
-                        setRoomId(res['data'])
-                        GameLobbyWSServices.connectWebSocket(res['data'])
-                        const history = createBrowserHistory()
-                        history.replace(`/GameLobby/${res['data']}`)
-                        setJoinUrl(window.location.toString().replace('GameLobby', 'JoinGame'))
+                        const newRoomId = res['data']
+
+                        setRoomId(newRoomId)
+                        RoomIdActions.changeRoomId(newRoomId)
+
+                        GameLobbyWSServices.connectWebSocket(newRoomId)
+                        // the host is the only new player
+                        setPlayers([
+                            {name: userNameStore.getState()}
+                        ])
                      },
                     (err) => console.log(err)
                 )
             } else {
                 GameLobbyWSServices.connectWebSocket(roomId)
-                setJoinUrl(window.location.toString().replace('GameLobby', 'JoinGame'))
             }
-            
             setIsLoading(false)
+        } else {
+            // GameLobbyWSServices.addEventListener('onNewPlayer', addPlayer)
         }
-        
-    }, [isLoading])
+
+        return () => {
+            if (!isLoading) {
+                // GameLobbyWSServices.clos()
+            }
+        }
+    }, [])
+
+    const addPlayer = (player) => {
+        setPlayers(prevPlayers => prevPlayers.push(player))
+    }
 
     return (
         <div className={'page gameLobby'}>

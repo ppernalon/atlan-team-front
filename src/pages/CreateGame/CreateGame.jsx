@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './CreateGame.css'
 import './../../components/StyledButton.css'
 import './../../components/StyledInput.css'
+import UserNameActions from '../../flux/actions/UserNameActions'
 
 const CreateGame = () => {
     const pseudoInput = useRef(null)
@@ -39,6 +40,7 @@ CreateGame.validCreation = (value, eventSubmit, navigate) => {
     if (value.length < 5){
         window.alert("Le pseudo doit contenir au moins 5 caractères")
     } else {
+        UserNameActions.changeUserName(value)
         navigate('/GameLobby')
     }
 }

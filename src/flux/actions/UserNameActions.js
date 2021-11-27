@@ -1,4 +1,4 @@
-import dispatcher from '../fluxDispatcher';
+import dispatcher from '../fluxDispatcher'
 
 export default class UserNameActions {
     static changeUserName(userName){

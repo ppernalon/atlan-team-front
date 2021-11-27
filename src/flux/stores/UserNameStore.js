@@ -4,7 +4,6 @@ import EventEmitter from 'events';
 let userName = ''
 
 class UserNameStore extends EventEmitter {
-
     emitChange() {
         this.emit("NEW_USERNAME")
     }

@@ -6,7 +6,7 @@ export default class GameLobbyWSServices {
     static connectWebSocket(roomId) {
         if ('WebSocket' in window) {
             console.log(websocket)
-            websocket = new WebSocket(`${path}/connect/${roomId}/bite`);
+            websocket = new WebSocket(`${path}/connect/${roomId}`);
             console.log(websocket)
         } else {
             alert("Your browser does not support it websocket");
@@ -19,6 +19,10 @@ export default class GameLobbyWSServices {
         window.onbeforeunload = function () {
             GameLobbyWSServices.clos();
         }   
+    }
+
+    static addEventListener(event, handle){
+        websocket.addEventListener(event, handle)
     }
     
     
