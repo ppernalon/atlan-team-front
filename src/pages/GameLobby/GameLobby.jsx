@@ -147,7 +147,9 @@ const GameLobby = () => {
                         <LoadingCircle />
                         :
                         <>
-                            <div>Invite tes ami(e)s avec le l'URL</div>
+                            <div className='friendInvite'>
+                                Invite tes ami(e)s en cliquant sur l'URL
+                            </div>
                             <button 
                                 className='buttonUrl'
                                 onClick={copyURL}

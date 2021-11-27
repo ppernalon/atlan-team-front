@@ -30,3 +30,8 @@
 .gameLobby__players input{
     min-width: 30vw
 }
+
+.friendInvite{
+    font-family: 'Open sans' sans-serif;
+    margin-bottom: 15px
+}
