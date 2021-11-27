@@ -1,0 +1,15 @@
+.createGame{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createGame__form{
+    width: 400px;
+    background-color: white;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+}

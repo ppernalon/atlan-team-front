@@ -1,0 +1,15 @@
+.styledButton{
+    cursor: pointer;
+    background-color: #1C2842;
+    color: white;
+    border: none;
+    font-family: 'Jolly Lodger', cursive;
+    font-size: 20px;
+    letter-spacing: 5px;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.styledButton:focus{
+    outline: none;
+}
