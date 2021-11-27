@@ -1,31 +1,44 @@
 import { useEffect, useState } from 'react'
 import { Stage, Sprite, useTick } from '@inlet/react-pixi'
+import bottleGreen from "../assets/objectImpactable/bottle.png"
+import bottleBlue from "../assets/objectImpactable/bottle_2.png"
+import canette from "../assets/objectImpactable/Canette.png"
+import bin from "../assets/objectImpactable/poubelle.png"
 
 
-const Background = (props) => {
+
+const ObjectImpactable = (props) => {
     const [y, setY] = useState(props.y);
+    const [x, setX] = useState(Math.random() * props.maxWidth);
   
     useTick(delta => {
       if (props.canMove){
-        setY(y - 0.5 * delta)
+          if (y < props.maxHeight - 140){
+            setY(y + Math.random()* 3 * delta)
+            setX(x - 0.5 * delta)
+          }
+          else{
+            setX(x - 0.5 * delta)
+          }
       }
+
     });
-    let linkImage='../assets/'
-    switch (props.image) {
+    let bottleImage=''
+    switch (props.imageName) {
         case 'bottleGreen':
-            linkImage='../assets/fish/Fish1.png'
+          bottleImage=bottleGreen
             break;
         case 'bottleBlue':
-            linkImage=""
+          bottleImage=bottleBlue
             break
         case 'canette':
-            linkImage=""
-            break;
-        default:
-            linkImage=""
-      }
-  
-    return <Sprite image={linkImage} x={props.x-60} y={y} />
+          bottleImage= canette
+            break
+        case 'bin':
+          bottleImage= bin
+          break
+      }  
+    return <Sprite image={bottleImage} x={x} y={y} />
   }
 
-  export default Background
+  export default ObjectImpactable

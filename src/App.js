@@ -7,7 +7,7 @@ import {
 } from "react-router-dom"
 import CreateGame from './pages/CreateGame/CreateGame'
 import GameLobby from './pages/GameLobby/GameLobby'
-import GamePlay from './components/GamePlay'
+import GamePlay from './pages/GamePlay'
 
 function App() {
   return (
