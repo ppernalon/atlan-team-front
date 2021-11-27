@@ -5,3 +5,7 @@
   margin: -30px;
   
 }
+
+:root{
+  --toastify-color-progress-light : #4cd964
+}

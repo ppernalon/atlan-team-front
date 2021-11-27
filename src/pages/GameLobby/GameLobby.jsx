@@ -10,8 +10,9 @@ import userNameStore from '../../flux/stores/UserNameStore'
 import RoomIdActions from '../../flux/actions/RoomIdActions'
 import roomIdStore from '../../flux/stores/RoomIdStore'
 import PlayersActions from '../../flux/actions/PlayersActions'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import icon from "../../assets/icon.png"
 
 const NB_MAX_PLAYERS = 10
 
@@ -115,7 +116,7 @@ const GameLobby = () => {
                     navigate('/InGame')
                 } else {
                     let newPlayersStore = []
-                    setPlayers([])
+                    setPlayers(newPlayersStore)
                     let users = msg.data
                     users = users.replaceAll('[', '')
                     users = users.replaceAll(',', '')
@@ -129,7 +130,7 @@ const GameLobby = () => {
                 }
             }
         }
-    }, [isLoading, roomId, joinUrl, navigate])
+    }, [isLoading])
 
     const onClickButton = () => {
         GameLobbyWSServices.websocket.send(`/startGame/${roomIdStore.getState()}`)
@@ -155,7 +156,9 @@ const GameLobby = () => {
                                 onClick={copyURL}
                             >
                                 {joinUrl}
+                                <img src={icon} className='icon'/>
                             </button>
+
                         
                             <div className='gameLobby__players'>
                                 { playersSlots }

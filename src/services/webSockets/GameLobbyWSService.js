@@ -8,10 +8,8 @@ GameLobbyWSServices.websocket = null
 
 GameLobbyWSServices.connectWebSocket = (roomId) => {
     if ('WebSocket' in window) {
-        console.log(GameLobbyWSServices.websocket)
         const username = userNameStore.getState()
         GameLobbyWSServices.websocket = new WebSocket(`${path}/connect/${roomId}/${username}`)
-        console.log(GameLobbyWSServices.websocket)
     } else {
         alert("Your browser does not support it websocket")
     } 

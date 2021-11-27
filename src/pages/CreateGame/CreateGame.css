@@ -21,3 +21,7 @@
     padding: 10px 20px;
     text-align: center;
 }
+
+:root{
+    --toastify-color-progress-light : #1C2842 !important
+}
