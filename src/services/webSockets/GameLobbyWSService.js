@@ -1,12 +1,13 @@
-var websocket = null; 
+let websocket = null 
+const path = "ws://localhost:8080"
 
 export default class GameLobbyWSServices {
 
     static connectWebSocket(roomId) {
         if ('WebSocket' in window) {
             console.log(websocket)
-            websocket = new WebSocket("ws://localhost:8080/connect/" + roomId);
-            console.log("hourra")
+            websocket = new WebSocket(`${path}/connect/${roomId}/bite`);
+            console.log(websocket)
         } else {
             alert("Your browser does not support it websocket");
         } 
@@ -45,7 +46,7 @@ export default class GameLobbyWSServices {
     // //  Let the scroll block move down
     // msg_board.scrollTop = msg_board.scrollTop + 40;
     } else {
-    alert("You are disconnected, please re-enter the chat room...");
+        alert("You are disconnected, please re-enter the chat room...");
     }
     };
     
@@ -57,3 +58,4 @@ export default class GameLobbyWSServices {
     var roomName = document.getElementById("input_roomName").value;
     }
 }
+

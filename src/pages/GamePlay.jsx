@@ -17,10 +17,9 @@ const GamePlay = () => {
       <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'bottleBlue'} maxHeight={heightStage} maxWidth={widthStage}/>
       <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'bin'} maxHeight={heightStage} maxWidth={widthStage}/>
       <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'canette'} maxHeight={heightStage} maxWidth={widthStage}/>
-
-
     </Stage>
   )
+    
 }
 
 export default GamePlay
