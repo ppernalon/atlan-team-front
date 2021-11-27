@@ -17,10 +17,21 @@ const heightStage = window.innerHeight - 45
 
 const GamePlay = () => {
   let [players, setPlayers] = useState(playersStore.getState())
+  let [obstacles, setObstacles] = useState({});
+  let [isObstaclesInit, setIsObstaclesInit] = useState(false)
 
   const updatePlayers = () => {
     setPlayers(playersStore.getState())
   }
+
+  function updateLoop(){
+    GameLobbyWSServices.websocket.send(`/loopGame/${roomIdStore.getState()}`)
+    window.requestAnimationFrame(updateLoop)
+  }
+
+  // start requesting positions
+  window.requestAnimationFrame(updateLoop)
+
 
   useEffect(() => {
     playersStore.addChangeListener(updatePlayers)
@@ -31,17 +42,34 @@ const GamePlay = () => {
 
   useEffect(() => {
     GameLobbyWSServices.websocket.onmessage = (msg) => {
-      const playerToUpdate = JSON.parse(msg.data)
-      const newPayersState = playersStore.getState().map(player => {
-        if (player.name === playerToUpdate.username) {
-          let updatedPlayer = Object.assign({}, player)
-          updatedPlayer.y = player.y + playerToUpdate.deltaY
-          return updatedPlayer
-        }
-        return player
-      })
-      PlayersActions.setPlayers(newPayersState)
+      const parsedMsg = JSON.parse(msg.data)
+      if (parsedMsg.type && parsedMsg.type === "obstacles") {
+        let newObstaclesState = parsedMsg
+        delete newObstaclesState["type"]
+        Object.keys(newObstaclesState).forEach(key => {
+          if (!isObstaclesInit){
+            const rd = Math.floor(Math.random() * 4)
+            const imageNames = ['bin', 'bottleBlue', 'bottleGreen', 'canette']
+            newObstaclesState[key].type = imageNames[rd]
+            setIsObstaclesInit(true)
+          } else {
+            newObstaclesState[key].type = obstacles[key].type
+          }
 
+        })
+        setObstacles(newObstaclesState)
+      } else {
+        const playerToUpdate = parsedMsg
+        const newPayersState = playersStore.getState().map(player => {
+          if (player.name === playerToUpdate.username) {
+            let updatedPlayer = Object.assign({}, player)
+            updatedPlayer.y = player.y + playerToUpdate.deltaY
+            return updatedPlayer
+          }
+          return player
+        })
+        PlayersActions.setPlayers(newPayersState)
+      }
     }
   })
 
@@ -55,16 +83,27 @@ const GamePlay = () => {
         {
           players.map((player, index) => {
             if (player.name !== userNameStore.getState()) {
-              return <PlayerFish key={`player_${index}`} x={player.x} y={player.y} />
+              return <PlayerFish key={`player_${index}`} color={'gray'} x={player.x} y={player.y} />
             } else {
               return null
             }
           })
         }
-        <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'bottleGreen'} maxHeight={heightStage} maxWidth={widthStage}/>
-        <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'bottleBlue'} maxHeight={heightStage} maxWidth={widthStage}/>
-        <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'bin'} maxHeight={heightStage} maxWidth={widthStage}/>
-        <ObjectImpactable canMove={true} x={widthStage-150} y={0} imageName={'canette'} maxHeight={heightStage} maxWidth={widthStage}/>
+        {
+          Object.keys(obstacles).map(key => {
+            return (
+              <ObjectImpactable 
+                key={key} 
+                canMove={true} 
+                x={-obstacles[key].positionX} 
+                y={obstacles[key].positionY} 
+                imageName={obstacles[key].type} 
+                maxHeight={heightStage} 
+                maxWidth={widthStage}
+              />
+            )
+          })
+        }
       </Stage>
     </div>
   )

@@ -31,7 +31,7 @@ const MyFish = (props) => {
   
 
 
-    return <PlayerFish x={25} y={y}/>
+    return <PlayerFish color={'orange'} x={25} y={y}/>
 }
 
 

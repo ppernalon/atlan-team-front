@@ -9,11 +9,11 @@ import CreateGame from './pages/CreateGame/CreateGame'
 import GameLobby from './pages/GameLobby/GameLobby'
 import GamePlay from './pages/GamePlay'
 import JoinGame from './pages/JoinGame/JoinGame'
-
-//const sound = PIXI.sound.Sound.from('resources/boing.mp3');
+import { sound } from '@pixi/sound'
 
 function App() {
-//  sound.play();
+  // sound.add('my-sound', "src/assets/Jaunter-TheSearch.mp3")
+  // sound.play('my-sound')
   return (
     <Router>
       <Routes>
