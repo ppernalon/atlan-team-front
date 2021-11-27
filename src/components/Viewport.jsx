@@ -12,7 +12,6 @@ const PixiComponentViewport = PixiComponent("Viewport", {
         screenHeight: props.height,
         worldWidth: props.width * 2,
         worldHeight: props.height * 2,
-        ticker: props.app.ticker,
         interaction: props.app.renderer.plugins.interaction
       });
       Fish.start()  // starts the target moving

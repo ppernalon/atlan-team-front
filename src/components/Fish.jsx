@@ -18,10 +18,8 @@ export function start() {
 
 export function setup(viewport) {
     viewport.addChild(target)
-    target.width = SIZE
-    target.height= SIZE
     target.anchor.set(0.5)
-    target.position.set( 0 , 0)
+    // target.position.set( 0 , 0)
     _viewport = viewport
     changeTarget()
 }

@@ -3,7 +3,6 @@ import './GameLobby.css'
 import './../../components/StyledInput.css'
 import './../../components/StyledButton.css'
 import LoadingCircle from '../../components/LoadingCircle/LoadingCircle'
-
 const NB_MAX_PLAYERS = 10
 
 const GameLobby = () => {
