@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import './CreateGame.css'
 import './../../components/StyledButton.css'
 import './../../components/StyledInput.css'
-import GameLobbyHttpService from  '../../services/http/GameHttpLobbyService'
 
 const CreateGame = () => {
     const pseudoInput = useRef(null)
@@ -29,10 +28,6 @@ const CreateGame = () => {
                     type='submit' 
                     className='styledButton'
                     value='Créer une partie'
-                    onClick={() => GameLobbyHttpService.generateRoomId(
-                        (res) => console.log(res),
-                        (err) => console.log(err)
-                    )}
                 />
             </form>
         </div>

@@ -3,13 +3,17 @@ import './GameLobby.css'
 import './../../components/StyledInput.css'
 import './../../components/StyledButton.css'
 import LoadingCircle from '../../components/LoadingCircle/LoadingCircle'
-const NB_MAX_PLAYERS = 10
+import GameLobbyHttpServices from '../../services/http/GameLobbyHttpService'
+import GameLobbyWSServices from '../../services/webSockets/GameLobbyWSService'
 
+const NB_MAX_PLAYERS = 10
 const GameLobby = () => {
+
     let [isLoading, setIsLoading] = useState(true)
     let [players, setPlayers] = useState([])
     let [playersSlots, setPlayersSlots] = useState([])
     let [waitingSlots, setWaitingSlots] = useState([])
+    let [roomId, setRoomId] = useState("")
 
     useEffect(() => {
         const newPlayersSlots = players.map(player => {
@@ -41,6 +45,20 @@ const GameLobby = () => {
         }
         setWaitingSlots(newWaitingSlots)        
     }, [players])
+
+    useEffect(() => {
+        if (isLoading) {
+            GameLobbyHttpServices.generateRoomId(
+                (res) => {
+                    setRoomId(res['data'])
+                    setIsLoading(false)
+    
+                    GameLobbyWSServices.connectWebSocket(roomId)
+                 },
+                (err) => console.log(err)
+            )
+        }
+    },[isLoading])
 
     return (
         <div className={'page gameLobby'}>
