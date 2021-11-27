@@ -6,6 +6,15 @@
     padding: 10px;
 }
 
+.buttonUrl{
+    color: #1C2842;
+    border: solid 1px #1C2842;
+    font-family: 'Open sans' sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
 .styledInput:focus{
     outline: none;
 }

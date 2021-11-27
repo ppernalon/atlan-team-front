@@ -10,8 +10,10 @@ import GameLobby from './pages/GameLobby/GameLobby'
 import GamePlay from './pages/GamePlay'
 import JoinGame from './pages/JoinGame/JoinGame'
 
+//const sound = PIXI.sound.Sound.from('resources/boing.mp3');
 
 function App() {
+//  sound.play();
   return (
     <Router>
       <Routes>

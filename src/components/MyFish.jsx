@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import PlayerFish from "./PlayerFish"
 
 const MyFish = (props) => {
-    let [y, setY] = useState(300)
+    let [y, setY] = useState(200)
 
     const handleKeyDown = (keyEvent) => {
         setY(prevY => {
@@ -15,7 +15,7 @@ const MyFish = (props) => {
                 newY = prevY
             }
             if (props.sendMyPositionToServer) {
-                props.sendMyPositionToServer(newY)
+                props.sendMyPositionToServer(newY - prevY)
             }
             return newY
         })
@@ -27,7 +27,7 @@ const MyFish = (props) => {
         return () => { 
             window.removeEventListener('keydown', handleKeyDown) 
         }
-    }, [])
+    })
   
 
 

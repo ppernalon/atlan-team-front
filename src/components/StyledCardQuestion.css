@@ -1,0 +1,23 @@
+.cardBackground{
+    position: absolute;
+    right: 60px;
+    top: 48px;
+    background-color: rgb(238, 238, 238);
+    border-radius: 15px;
+    color: rgb(47, 81, 155);
+    padding: 35px;
+    font-family: 'Jolly Lodger', cursive;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    animation-duration: 5s;
+    animation-name: glissement
+}
+@keyframes glissement{
+    from {
+        right:-1000px    }
+    
+      to {
+        right: 60px;
+    }
+}

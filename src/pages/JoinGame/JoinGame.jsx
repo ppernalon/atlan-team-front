@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
-import { useNavigate, useLocation } from "react-router-dom";
-import RoomIdActions from '../../flux/actions/RoomIdActions';
+import { useNavigate, useLocation } from "react-router-dom"
+import RoomIdActions from '../../flux/actions/RoomIdActions'
+import UserNameActions from '../../flux/actions/UserNameActions'
 import '../CreateGame/CreateGame.css'
 import './../../components/StyledButton.css'
 import './../../components/StyledInput.css'
@@ -46,6 +47,7 @@ JoinGame.joinLobby = (value, eventSubmit, navigate) => {
     if (value.length < 5){
         window.alert("Le pseudo doit contenir au moins 5 caractères")
     } else {
+        UserNameActions.changeUserName(value)
         navigate('/GameLobby')
     }
 }

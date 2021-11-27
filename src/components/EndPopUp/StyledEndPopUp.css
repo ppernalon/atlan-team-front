@@ -1,0 +1,21 @@
+.EndPopUpBackground{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%) scale(1.5) ;
+    background-color: rgb(238, 238, 238);
+    border-radius: 15px;
+    color: rgb(47, 81, 155);
+    padding: 35px;
+    font-family: 'Jolly Lodger', cursive;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-size: 1.5em;
+}
+
+.Ranking{
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}

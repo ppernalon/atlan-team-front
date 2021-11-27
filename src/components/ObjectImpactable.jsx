@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
-import { Stage, Sprite, useTick } from '@inlet/react-pixi'
+import { useState } from 'react'
+import { Sprite, useTick } from '@inlet/react-pixi'
 import bottleGreen from "../assets/objectImpactable/bottle.png"
 import bottleBlue from "../assets/objectImpactable/bottle_2.png"
 import canette from "../assets/objectImpactable/Canette.png"
 import bin from "../assets/objectImpactable/poubelle.png"
-
-
 
 const ObjectImpactable = (props) => {
     const [y, setY] = useState(props.y);
@@ -27,15 +25,16 @@ const ObjectImpactable = (props) => {
     switch (props.imageName) {
         case 'bottleGreen':
           bottleImage=bottleGreen
-            break;
+          break;
         case 'bottleBlue':
           bottleImage=bottleBlue
-            break
-        case 'canette':
-          bottleImage= canette
-            break
+          break
         case 'bin':
           bottleImage= bin
+          break
+        default:
+        case 'canette':
+          bottleImage= canette
           break
       }  
     return <Sprite image={bottleImage} x={x} y={y} />

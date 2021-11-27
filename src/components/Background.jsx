@@ -1,6 +1,6 @@
 import backgroundImage from '../assets/background.png'
-import { useEffect, useState } from 'react'
-import { Stage, Sprite, useTick } from '@inlet/react-pixi'
+import { useState } from 'react'
+import { Sprite, useTick } from '@inlet/react-pixi'
 
 
 const Background = (props) => {
@@ -8,7 +8,12 @@ const Background = (props) => {
   
     useTick(delta => {
       if (props.canMove){
-        setX(x - 0.5 * delta)
+        if(x <= -5000){
+        }
+        else{
+          setX(x - 6 * delta)
+
+        }
       }
     });
   
