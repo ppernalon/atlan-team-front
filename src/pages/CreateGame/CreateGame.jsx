@@ -16,7 +16,7 @@ const CreateGame = () => {
     return (
         <div className={'page createGame'}>
             <form className={'createGame__form'} onSubmit={onSubmit}>
-                <div>
+                <div className={'titleGame'}>
                     Hurry Fish
                 </div>
                 <input 

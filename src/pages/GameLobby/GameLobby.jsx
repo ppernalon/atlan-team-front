@@ -129,7 +129,7 @@ const GameLobby = () => {
                 }
             }
         }
-    }, [isLoading])
+    }, [isLoading, roomId, joinUrl, navigate])
 
     const onClickButton = () => {
         GameLobbyWSServices.websocket.send(`/startGame/${roomIdStore.getState()}`)
@@ -147,6 +147,7 @@ const GameLobby = () => {
                         <LoadingCircle />
                         :
                         <>
+                            <div>Invite tes ami(e)s avec le l'URL</div>
                             <button 
                                 className='buttonUrl'
                                 onClick={copyURL}

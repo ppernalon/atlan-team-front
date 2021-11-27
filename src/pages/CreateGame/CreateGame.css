@@ -13,3 +13,11 @@
     gap: 25px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
 }
+
+.titleGame{
+    font-family: 'Jolly Lodger', cursive;
+    font-size: 35px;
+    letter-spacing: 4px;
+    padding: 10px 20px;
+    text-align: center;
+}
