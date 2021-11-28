@@ -115,16 +115,22 @@ const GameLobby = () => {
                 if (msg.data === "GAME_STARTING"){
                     navigate('/InGame')
                 } else {
+                    const height = 600
+                    const heightSea = height * 135 / 800
+                    const heightSand = height * 55 / 800 
+
                     let newPlayersStore = []
                     setPlayers(newPlayersStore)
+
                     let users = msg.data
                     users = users.replaceAll('[', '')
                     users = users.replaceAll(',', '')
                     users = users.replaceAll(']', '')
                     users = users.split(' ')
+
                     users.forEach(username => {
                         addPlayer({name: username})
-                        newPlayersStore.push({name: username, x: 25, y: 200})
+                        newPlayersStore.push({name: username, x: 25, y: (height - (heightSea + heightSand - 55 )) / 2 + 45})
                     })
                     PlayersActions.setPlayers(newPlayersStore)
                 }

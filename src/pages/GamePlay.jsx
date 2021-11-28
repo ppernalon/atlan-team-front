@@ -12,26 +12,23 @@ import roomIdStore from '../flux/stores/RoomIdStore'
 import EndPopUp from '../components/EndPopUp/EndPopUp'
 import PlayersActions from '../flux/actions/PlayersActions'
 
-const widthStage = window.innerWidth - 45
-const heightStage = window.innerHeight - 45
+const widthStage = 900
+const heightStage = 600 
 
 const GamePlay = () => {
+  const height = 600
+  const heightSea = height * 135 / 800
+  const heightSand = height * 55 / 800 
+  const middle = (height - (heightSea + heightSand - 55 )) / 2 + 45
+
+  let [position, setPosition] = useState({x: 25, y: middle})
   let [players, setPlayers] = useState(playersStore.getState())
-  let [obstacles, setObstacles] = useState({});
+  let [obstacles, setObstacles] = useState({})
   let [isObstaclesInit, setIsObstaclesInit] = useState(false)
 
   const updatePlayers = () => {
     setPlayers(playersStore.getState())
   }
-
-  function updateLoop(){
-    GameLobbyWSServices.websocket.send(`/loopGame/${roomIdStore.getState()}`)
-    window.requestAnimationFrame(updateLoop)
-  }
-
-  // start requesting positions
-  window.requestAnimationFrame(updateLoop)
-
 
   useEffect(() => {
     playersStore.addChangeListener(updatePlayers)
@@ -55,9 +52,29 @@ const GamePlay = () => {
           } else {
             newObstaclesState[key].type = obstacles[key].type
           }
-
         })
         setObstacles(newObstaclesState)
+      } else if (parsedMsg.type && parsedMsg.type === "player") {
+        let newPlayersState = []
+        
+        let rawData = Object.assign({}, parsedMsg)
+        delete rawData["type"]
+
+        Object.keys(rawData).forEach(key => {
+          newPlayersState.push(
+            {
+              name: key,
+              x: +rawData[key].positionX,
+              y: +rawData[key].positionY
+            }
+          )
+          if (key === userNameStore.getState()){
+            setPosition({x: +rawData[key].positionX, y: +rawData[key].positionY})
+          }
+        })
+        setPlayers(newPlayersState)
+        console.log(position)
+
       } else {
         const playerToUpdate = parsedMsg
         const newPayersState = playersStore.getState().map(player => {
@@ -74,11 +91,16 @@ const GamePlay = () => {
   })
 
   return(
-    <div>
+    <div style={{
+      display: 'Flex', 
+      height: window.innerHeight, 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    }}>
       <EndPopUp ranking={4} display={false}/>
       <CardQuestion question= {" Plus de la moitié des espèces marines pourraient disparaître d'ici 2100 ?"}/>
       <Stage width={widthStage} height={heightStage} options={{ backgroundColor: 0x1C2842 }}>
-        <Background canMove={true} x={0} y={0} height={heightStage} width={widthStage}/>
+        <Background canMove={false} x={-position.x + 25} y={0} height={heightStage} width={widthStage}/>
         <MyFish sendMyPositionToServer={GamePlay.sendMyPositionToServer} />
         {
           players.map((player, index) => {
@@ -95,7 +117,7 @@ const GamePlay = () => {
               <ObjectImpactable 
                 key={key} 
                 canMove={true} 
-                x={-obstacles[key].positionX} 
+                x={obstacles[key].positionX - position.x} 
                 y={obstacles[key].positionY} 
                 imageName={obstacles[key].type} 
                 maxHeight={heightStage} 
