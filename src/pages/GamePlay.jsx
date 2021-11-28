@@ -102,7 +102,9 @@ const GamePlay = () => {
       alignItems: 'center'
     }}>
       <EndPopUp ranking={isFinish.ranking} display={isFinish.isFinishB}/>
-      <CardQuestion question= {" Plus de la moitié des espèces marines pourraient disparaître d'ici 2100 ?"}/>
+      {
+        position.x > 6000 && position.x < 16000 ?  <CardQuestion question= {" Plus de la moitié des espèces marines pourraient disparaître d'ici 2100 ?"}/> : null
+      }     
       <Stage width={widthStage} height={heightStage} options={{ backgroundColor: 0x1C2842 }}>
         <Background canMove={false} x={-position.x + 25} y={0} height={heightStage} width={widthStage}/>
         <MyFish sendMyPositionToServer={GamePlay.sendMyPositionToServer} worldX={position.x}/>
