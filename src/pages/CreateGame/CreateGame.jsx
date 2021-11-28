@@ -4,6 +4,7 @@ import './CreateGame.css'
 import './../../components/StyledButton.css'
 import './../../components/StyledInput.css'
 import UserNameActions from '../../flux/actions/UserNameActions'
+import IsHostActions from '../../flux/actions/IsHostActions';
 
 const CreateGame = () => {
     const pseudoInput = useRef(null)
@@ -41,6 +42,7 @@ CreateGame.validCreation = (value, eventSubmit, navigate) => {
         window.alert("Le pseudo doit contenir au moins 5 caractères")
     } else {
         UserNameActions.changeUserName(value)
+        IsHostActions.setIsHost(true)
         navigate('/GameLobby')
     }
 }

@@ -40,7 +40,7 @@ const Background = (props) => {
         if(x <= -width*backgrounds.length + window.innerWidth){
         }
         else{
-          setX(x - 12 * delta)
+          setX(x - 10 * delta)
         }
       }
     })

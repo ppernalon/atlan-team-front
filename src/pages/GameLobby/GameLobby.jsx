@@ -7,6 +7,7 @@ import LoadingCircle from '../../components/LoadingCircle/LoadingCircle'
 import GameLobbyHttpServices from '../../services/http/GameLobbyHttpService'
 import GameLobbyWSServices from '../../services/webSockets/GameLobbyWSService'
 import userNameStore from '../../flux/stores/UserNameStore'
+import isHostStore from '../../flux/stores/IsHostStore'
 import RoomIdActions from '../../flux/actions/RoomIdActions'
 import roomIdStore from '../../flux/stores/RoomIdStore'
 import PlayersActions from '../../flux/actions/PlayersActions'
@@ -139,7 +140,9 @@ const GameLobby = () => {
     }, [isLoading])
 
     const onClickButton = () => {
-        GameLobbyWSServices.websocket.send(`/startGame/${roomIdStore.getState()}`)
+        if (isHostStore.getState()){
+            GameLobbyWSServices.websocket.send(`/startGame/${roomIdStore.getState()}`)
+        }      
     }
     const copyURL = () => {
         navigator.clipboard.writeText(joinUrl)

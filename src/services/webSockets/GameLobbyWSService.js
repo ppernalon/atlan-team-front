@@ -12,16 +12,7 @@ GameLobbyWSServices.connectWebSocket = (roomId) => {
         GameLobbyWSServices.websocket = new WebSocket(`${path}/connect/${roomId}/${username}`)
     } else {
         alert("Your browser does not support it websocket")
-    } 
-
-    GameLobbyWSServices.websocket.onbeforeunload = function() {
-        GameLobbyWSServices.close()
     }
-
-
-    window.onbeforeunload = function () {
-        GameLobbyWSServices.close()
-    }   
 }
 
 GameLobbyWSServices.close = () => {

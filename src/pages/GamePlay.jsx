@@ -25,6 +25,7 @@ const GamePlay = () => {
   let [players, setPlayers] = useState(playersStore.getState())
   let [obstacles, setObstacles] = useState({})
   let [isObstaclesInit, setIsObstaclesInit] = useState(false)
+  let [isFinish, setIsFinish] = useState({isFinishB: false, ranking: ""})
 
   const updatePlayers = () => {
     setPlayers(playersStore.getState())
@@ -69,12 +70,14 @@ const GamePlay = () => {
             }
           )
           if (key === userNameStore.getState()){
+            console.log(+rawData[key].positionX)
             setPosition({x: +rawData[key].positionX, y: +rawData[key].positionY})
           }
         })
         setPlayers(newPlayersState)
-        console.log(position)
 
+      } else if (parsedMsg.type && parsedMsg.type === "finish" && parsedMsg.username === userNameStore.getState()){
+          setIsFinish({isFinishB: true, ranking: parsedMsg.place - 1})
       } else {
         const playerToUpdate = parsedMsg
         const newPayersState = playersStore.getState().map(player => {
@@ -90,6 +93,7 @@ const GamePlay = () => {
     }
   })
 
+
   return(
     <div style={{
       display: 'Flex', 
@@ -97,16 +101,19 @@ const GamePlay = () => {
       justifyContent: 'center', 
       alignItems: 'center'
     }}>
-      <EndPopUp ranking={4} display={false}/>
+      <EndPopUp ranking={isFinish.ranking} display={isFinish.isFinishB}/>
       <CardQuestion question= {" Plus de la moitié des espèces marines pourraient disparaître d'ici 2100 ?"}/>
       <Stage width={widthStage} height={heightStage} options={{ backgroundColor: 0x1C2842 }}>
         <Background canMove={false} x={-position.x + 25} y={0} height={heightStage} width={widthStage}/>
-        <MyFish sendMyPositionToServer={GamePlay.sendMyPositionToServer} />
+        <MyFish sendMyPositionToServer={GamePlay.sendMyPositionToServer} worldX={position.x}/>
         {
           players.map((player, index) => {
             if (player.name !== userNameStore.getState()) {
-              return <PlayerFish key={`player_${index}`} color={'gray'} x={player.x} y={player.y} />
-            } else {
+              const pos = player.x - position.x
+              console.log(player.x, position.x, pos)
+              return <PlayerFish key={`player_${index}`} color={'gray'} x={pos} y={player.y} />
+            } 
+            else {
               return null
             }
           })
