@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Sprite, useTick } from '@inlet/react-pixi'
+import React from 'react'
+import { Sprite } from '@inlet/react-pixi'
 import bottleGreen from "../assets/objectImpactable/bottle.png"
 import bottleBlue from "../assets/objectImpactable/bottle_2.png"
 import canette from "../assets/objectImpactable/Canette.png"

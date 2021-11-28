@@ -11,6 +11,7 @@ import userNameStore from '../flux/stores/UserNameStore'
 import roomIdStore from '../flux/stores/RoomIdStore'
 import EndPopUp from '../components/EndPopUp/EndPopUp'
 import PlayersActions from '../flux/actions/PlayersActions'
+import Shark from '../components/Shark'
 
 const widthStage = 900
 const heightStage = 600 
@@ -24,6 +25,7 @@ const GamePlay = () => {
   let [position, setPosition] = useState({x: 25, y: middle})
   let [players, setPlayers] = useState(playersStore.getState())
   let [obstacles, setObstacles] = useState({})
+  let [sharks, setSharks] = useState({})
   let [isObstaclesInit, setIsObstaclesInit] = useState(false)
   let [isFinish, setIsFinish] = useState({isFinishB: false, ranking: ""})
 
@@ -44,6 +46,7 @@ const GamePlay = () => {
       if (parsedMsg.type && parsedMsg.type === "obstacles") {
         let newObstaclesState = parsedMsg
         delete newObstaclesState["type"]
+        delete newObstaclesState["typeObstacle"]
         Object.keys(newObstaclesState).forEach(key => {
           if (!isObstaclesInit){
             const rd = Math.floor(Math.random() * 4)
@@ -55,6 +58,28 @@ const GamePlay = () => {
           }
         })
         setObstacles(newObstaclesState)
+        // console.log(parsedMsg)
+        // if (parsedMsg.typeObstacle === "shark"){
+        //   let newSharks = parsedMsg
+        //   delete newSharks["type"]
+        //   delete newSharks["typeObstacle"]
+        //   setSharks(newSharks)
+        // } if (parsedMsg.typeObstacle === "trash") {
+        //   let newObstaclesState = parsedMsg
+        //   delete newObstaclesState["type"]
+        //   delete newObstaclesState["typeObstacle"]
+        //   Object.keys(newObstaclesState).forEach(key => {
+        //     if (!isObstaclesInit){
+        //       const rd = Math.floor(Math.random() * 4)
+        //       const imageNames = ['bin', 'bottleBlue', 'bottleGreen', 'canette']
+        //       newObstaclesState[key].type = imageNames[rd]
+        //       setIsObstaclesInit(true)
+        //     } else {
+        //       newObstaclesState[key].type = obstacles[key].type
+        //     }
+        //   })
+        //   setObstacles(newObstaclesState)
+        // }
       } else if (parsedMsg.type && parsedMsg.type === "player") {
         let newPlayersState = []
         
@@ -70,7 +95,6 @@ const GamePlay = () => {
             }
           )
           if (key === userNameStore.getState()){
-            console.log(+rawData[key].positionX)
             setPosition({x: +rawData[key].positionX, y: +rawData[key].positionY})
           }
         })
@@ -112,7 +136,6 @@ const GamePlay = () => {
           players.map((player, index) => {
             if (player.name !== userNameStore.getState()) {
               const pos = player.x - position.x
-              console.log(player.x, position.x, pos)
               return <PlayerFish key={`player_${index}`} color={'gray'} x={pos} y={player.y} />
             } 
             else {
@@ -120,19 +143,40 @@ const GamePlay = () => {
             }
           })
         }
-        {
-          Object.keys(obstacles).map(key => {
+                {
+          Object.keys(sharks).map(key => {
             return (
-              <ObjectImpactable 
+              <Shark 
                 key={key} 
-                canMove={true} 
-                x={obstacles[key].positionX - position.x} 
-                y={obstacles[key].positionY} 
-                imageName={obstacles[key].type} 
-                maxHeight={heightStage} 
-                maxWidth={widthStage}
+                x={sharks[key].positionX - position.x} 
+                y={sharks[key].positionY} 
               />
             )
+          })
+        }
+        {
+          Object.keys(obstacles).map(key => {
+            if (obstacles[key].typeObstacle === "shark"){
+              return (
+                <Shark 
+                  key={key} 
+                  x={obstacles[key].positionX - position.x} 
+                  y={obstacles[key].positionY} 
+                />
+              )
+            } else {
+              return (
+                <ObjectImpactable 
+                  key={key} 
+                  canMove={true} 
+                  x={obstacles[key].positionX - position.x} 
+                  y={obstacles[key].positionY} 
+                  imageName={obstacles[key].type} 
+                  maxHeight={heightStage} 
+                  maxWidth={widthStage}
+                />
+              )
+            }            
           })
         }
       </Stage>
