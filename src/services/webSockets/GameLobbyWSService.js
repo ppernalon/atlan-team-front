@@ -1,6 +1,6 @@
 import userNameStore from "../../flux/stores/UserNameStore"
 
-const path = "ws://atlanteam.herokuapp.com"
+const path = "wss://atlanteam.herokuapp.com"
 
 const GameLobbyWSServices = {}
 
